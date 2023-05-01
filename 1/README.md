@@ -15,3 +15,9 @@ To clean the application
 Execute application
 
 > ./bazel-out/k8-fastbuild/bin/app
+
+## Actions
+
+The path of the action definition is this:
+
+> {repo}/.github/workflows/1.yml
