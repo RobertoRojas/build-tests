@@ -1,5 +1,7 @@
 name: Simple build - 1
 
+on: workflow_dispatch
+
 jobs:
   build:
     runs-on: ubuntu-latest
