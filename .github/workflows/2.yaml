@@ -20,4 +20,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: application
-        path: ./2/bazel-bin/app
+        path: 2/bazel-bin/app
