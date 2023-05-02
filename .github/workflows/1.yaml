@@ -14,4 +14,4 @@ jobs:
       run: cd 1 && bazel build //:app;
     
     - name: Execute application
-      run: ./1/bazel-out/k8-fastbuild/bin/app
+      run: ./1/bazel-out/k8-fastbuild/bin/app;

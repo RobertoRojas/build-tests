@@ -1,0 +1,17 @@
+name: Multi BUILD files - 2
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+    
+    - name: Build the code
+      run: cd 2 && bazel build //:app;
+    
+    - name: Execute application
+      run: ./2/bazel-bin/app;

@@ -1,6 +1,6 @@
-# Simple build
+# Multi BUILD files
 
-This is a simple build to test the build process in _GitHub_.
+This is a build that use 2 libraries from different folders and link them to the main.c file.
 
 ## Commands
 
@@ -14,10 +14,10 @@ To clean the application
 
 Execute application
 
-> ./bazel-out/k8-fastbuild/bin/app;
+> ./bazel-bin/app;
 
 ## Actions
 
 The path of the action definition is this:
 
-> {repo}/.github/workflows/1.yml
+> {repo}/.github/workflows/2.yml
