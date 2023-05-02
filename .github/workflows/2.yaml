@@ -16,8 +16,11 @@ jobs:
     - name: Execute application
       run: ./2/bazel-bin/app;
 
+    - name: Move file
+      run: mv ./2/bazel-bin/app .;
+
     - name: Upload app
       uses: actions/upload-artifact@v3
       with:
         name: application
-        path: 2/bazel-bin/app
+        path: app
