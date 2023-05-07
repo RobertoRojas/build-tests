@@ -9,6 +9,6 @@ def untar(name, src, outs, dest="", **kwargs):
         name = name,
         srcs = [src],
         outs = fixed_out,
-        cmd = "mkdir -p $(RULEDIR)/{dest} && tar -zxf $< -C $(RULEDIR)/{dest}".format(dest=dest),
+        cmd = "mkdir -p $(RULEDIR)/{dest} && tar -xf $< -C $(RULEDIR)/{dest}".format(dest=dest),
         **kwargs
     )

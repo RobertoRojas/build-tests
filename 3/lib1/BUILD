@@ -12,16 +12,12 @@ cc_library(
 pkg_tar(
     name = "objs",
     srcs = [":object"],
-    mode = "0644",
-    extension = "tar.gz",
     visibility = ["//visibility:private"],
 )
 
 pkg_tar(
     name = "hdrs",
     srcs = glob(["hdr/*.h"]),
-    mode = "0644",
-    extension = "tar.gz",
     visibility = ["//visibility:private"],
 )
 
