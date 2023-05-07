@@ -1,0 +1,83 @@
+name: Multi BUILD files - 2
+
+on: workflow_dispatch
+
+jobs:
+  libraries:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target: [
+          "1",
+          "2"
+        ]
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+    
+    - name: Build the code
+      run: cd 3 && bazel build //lib${{ matrix.target }}:release;
+
+    - name: Move file
+      run: mv 3/bazel-bin/lib${{ matrix.target }}/*.tar.gz .;
+
+    - name: Upload objs
+      uses: actions/upload-artifact@v3
+      with:
+        name: objs_${{ matrix.target }}
+        path: objs.tar.gz
+
+    - name: Upload hdrs
+      uses: actions/upload-artifact@v3
+      with:
+        name: hdrs_${{ matrix.target }}
+        path: hdrs.tar.gz
+
+  app:
+
+    needs: ["libraries"]
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Create lib1 folder
+      run: mkdir -p 3/download/lib1;
+
+    - name: Create lib2 folder
+      run: mkdir 3/download/lib2;
+
+    - name: Download lib1 objs
+      uses: actions/download-artifact@v2
+      with:
+        name: objs_1
+        path: 3/download/lib1
+
+    - name: Download lib1 hdrs
+      uses: actions/download-artifact@v2
+      with:
+        name: hdrs_1
+        path: 3/download/lib1
+
+    - name: Download lib2 objs
+      uses: actions/download-artifact@v2
+      with:
+        name: objs_2
+        path: 3/download/lib2
+
+    - name: Download lib2 hdrs
+      uses: actions/download-artifact@v2
+      with:
+        name: hdrs_2
+        path: 3/download/lib2
+    
+    - name: Build the code
+      run: cd 3 && bazel build //:release;
+    
+    - name: Execute application
+      run: ./3/bazel-bin/app;
