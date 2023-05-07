@@ -37,3 +37,11 @@ Is posible to create customs rules in order to execute some commands, like [BUIL
 ### Build app
 
 > bazel build //:release
+
+## Actions
+
+The path of the action definition is this:
+
+> {repo}/.github/workflows/3.yml
+
+**Note:** Be carefull, the versions of the tools inside of the github container can change the parameters of the rules, causing issues to build. 
