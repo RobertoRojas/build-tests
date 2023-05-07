@@ -1,4 +1,4 @@
-name: Multi BUILD files - 2
+name: 3 - Segmented build
 
 on: workflow_dispatch
 

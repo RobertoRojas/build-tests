@@ -1,4 +1,4 @@
-name: Simple build - 1
+name: 1 - Simple build
 
 on: workflow_dispatch
 
