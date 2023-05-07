@@ -22,19 +22,19 @@ jobs:
       run: cd 3 && bazel build //lib${{ matrix.target }}:release;
 
     - name: Move file
-      run: mv 3/bazel-bin/lib${{ matrix.target }}/*.tar.gz .;
+      run: mv 3/bazel-bin/lib${{ matrix.target }}/*.tar .;
 
     - name: Upload objs
       uses: actions/upload-artifact@v3
       with:
         name: objs_${{ matrix.target }}
-        path: objs.tar.gz
+        path: objs.tar
 
     - name: Upload hdrs
       uses: actions/upload-artifact@v3
       with:
         name: hdrs_${{ matrix.target }}
-        path: hdrs.tar.gz
+        path: hdrs.tar
 
   app:
 
