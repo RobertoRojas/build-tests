@@ -5,7 +5,7 @@ process(
     objs_src = "download/lib1/objs.tar",
     hdrs_src = "download/lib1/hdrs.tar",
     objs_outs = ["libobject.a"],
-    hdrs_outs = ["lib1.h"],
+    hdrs_outs = ["hdr/lib1.h"],
 )
 
 process(
@@ -13,7 +13,7 @@ process(
     objs_src = "download/lib2/objs.tar",
     hdrs_src = "download/lib2/hdrs.tar",
     objs_outs = ["libobject.a"],
-    hdrs_outs = ["lib2.h"],
+    hdrs_outs = ["hdr/lib2.h"],
 )
 
 cc_binary(

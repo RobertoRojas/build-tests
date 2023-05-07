@@ -23,6 +23,7 @@ def process(name, objs_src, objs_outs, hdrs_src, hdrs_outs, **kwargs):
         name = name,
         srcs = [":{}".format(objs)],
         hdrs = [":{}".format(hdrs)],
+        includes = ["hdr"],
         linkstatic = 1,
         **kwargs
     )
