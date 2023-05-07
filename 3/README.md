@@ -17,10 +17,10 @@ You can notice that the [BUID for lib1](./lib1/BUILD) and [BUID for lib2](./lib2
 
 To build this application is mandatory have the _.tar.gz_ on these paths:
 
-- download/lib1/hdrs.tar.gz
-- download/lib1/objs.tar.gz
-- download/lib2/hdrs.tar.gz
-- download/lib2/objs.tar.gz
+- download/lib1/hdrs.tar
+- download/lib1/objs.tar
+- download/lib2/hdrs.tar
+- download/lib2/objs.tar
 
 Is posible to create customs rules in order to execute some commands, like [BUILD#89](./BUILD), but sometimes you need to pre-process some arguments like [untar.bzl](./untar.bzl) or reduce the repetitive code wrapping different rules like [process.bzl](./process.bzl).
 
