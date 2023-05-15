@@ -1,0 +1,90 @@
+name: 1 - Simple build
+
+on: 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Define the tag name to use to create the release
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target: [
+          "pro",
+          "free"
+        ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Build the code
+        run: cd 4 && bazel build //:package --copt="-DVERSION=${{ github.event.inputs.tag }}_${{ matrix.target }}" --config=release --define variant=${{ matrix.target }} --define type=release;
+
+      - name: Move file
+        run: mv bazel-bin/package.tar.gz .;
+
+      - name: Upload objs
+        uses: actions/upload-artifact@v3
+        with:
+          name: package_${{ matrix.target }}
+          path: package.tar.gz
+
+  release:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Create pro directory
+        run: mkdir pro
+
+      - name: Download pro
+        uses: actions/download-artifact@v2
+        with:
+          name: package_pro
+          path: pro
+
+      - name: Create free directory
+        run: mkdir free
+
+      - name: Download free
+        uses: actions/download-artifact@v2
+        with:
+          name: package_free
+          path: free
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        with:
+          tag_name: ${{ env.version }}
+          release_name: Release for ${{ github.ref }}
+          draft: false
+          prerelease: false
+  
+      - name: Upload pro Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./pro/package.tar.gz
+          asset_name: pro.tar.gz
+          asset_content_type: application/octet-stream
+    
+      - name: Upload free Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./free/package.tar.gz
+          asset_name: free.tar.gz
+          asset_content_type: application/octet-stream
+

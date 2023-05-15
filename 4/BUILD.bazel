@@ -1,0 +1,80 @@
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("@my_external_rules//manifest:defs.bzl", "generate_manifest")
+load("@my_external_rules//imgen:defs.bzl", "imgen")
+
+config_setting(
+    name = "release",
+    values = {"define": "type=release"}
+)
+
+config_setting(
+    name = "fake",
+    values = {"define": "type=fake"}
+)
+
+config_setting(
+    name = "debug",
+    values = {"define": "type=debug"}
+)
+
+config_setting(
+    name = "pro",
+    values = {"define": "variant=pro"},
+)
+
+config_setting(
+    name = "free",
+    values = {"define": "variant=free"},
+)
+
+cc_library(
+    name = "free_lib",
+    srcs = ["src/modules/free_app.c"],
+    hdrs = ["src/hdr"],
+    includes = ["src/hdr"],
+)
+
+cc_library(
+    name = "pro_lib",
+    srcs = ["src/modules/pro_app.c"],
+    hdrs = ["src/hdr"],
+    includes = ["src/hdr"],
+)
+
+cc_binary(
+    name = "app",
+    srcs = ["src/main.c"],
+    deps = select({
+        ":pro": [":pro_lib"],
+        "//conditions:default": [":free_lib"]
+    })
+)
+
+imgen(
+    name = "gen_img",
+    output = "image.png",
+)
+
+generate_manifest(
+    name = "manifest",
+    manifest_name = "MANIFEST",
+    srcs = [
+        ':app',
+        ':gen_img',
+    ],
+    type = select({
+        ":fake": "fake",
+        ":release": "release",
+        "//conditions:default": "debug"
+    })
+)
+
+pkg_tar(
+    name = 'package',
+    extension = "tar.gz",
+    srcs = [
+        ":manifest",
+        ':app',
+        ':gen_img',
+    ]
+)

@@ -1,0 +1,15 @@
+# Default argument
+
+build --copt="-DVERSION=0.0.0"
+
+# Release argument
+
+build:release --copt="-DTYPE=RELEASE"
+
+# Pre-integration argument
+
+build:preint --copt="-DTYPE=PREINT"
+
+# Development argument
+
+build:development --copt="-DTYPE=DEV"

@@ -18,8 +18,6 @@ Execute application
 
 ## Actions
 
-The path of the action definition is this:
-
-> {repo}/.github/workflows/2.yml
+The path of the action definition is [this](../.github/workflows/2.yaml).
 
 **Note:** The _upload-artifact@v3_ is not working fine with the symblinks, for that reason, I move the file and upload from the root.

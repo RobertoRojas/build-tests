@@ -18,6 +18,4 @@ Execute application
 
 ## Actions
 
-The path of the action definition is this:
-
-> {repo}/.github/workflows/1.yml
+The path of the action definition is [this](../.github/workflows/1.yaml).
