@@ -1,4 +1,4 @@
-name: 1 - Simple build
+name: 4 - Build variants and external rules
 
 on: 
   workflow_dispatch:
