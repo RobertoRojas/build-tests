@@ -1,0 +1,49 @@
+config_setting(
+    name = "local",
+    values = {"define": "libraries=local"},
+)
+
+cc_library(
+    name = "clib_comp",
+    srcs = ["src/clibrary.c"],
+    copts = [
+        "-fPIC",
+        "-shared",
+    ],
+)
+
+filegroup(
+    name = "clib_out",
+    srcs = [":clib_comp"],
+    output_group = "dynamic_library",
+)
+
+genrule(
+    name = "clib_down",
+    srcs = [],
+    outs = ["clib.so"],
+    cmd = 'curl -o $(RULEDIR)/clib.so -L https://github.com/RobertoRojas/build-tests/releases/download/2.0.0/clibrary.so',
+    visibility = ["//visibility:public"],
+)
+
+genrule(
+    name = "clib_cp",
+    srcs = [":clib_down"],
+    outs = ["clibrary.so"],
+    cmd  = "cp $< $@",
+)
+
+filegroup(
+    name = "clib_so",
+    srcs = select({
+        ":local": [":clib_out"],
+        "//conditions:default": [":clib_down"]
+    }),
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "clib_h",
+    srcs = ["hdr/clibrary.h"],
+    visibility = ["//visibility:public"],
+)

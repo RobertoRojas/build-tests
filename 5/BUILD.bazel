@@ -1,0 +1,50 @@
+load("@my_external_rules//manif:defs.bzl", "generate_manifest")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+
+filegroup(
+    name = "script",
+    srcs = ["src/script.py"],
+)
+
+genrule(
+    name = "cp_script",
+    srcs = ["//:script"],
+    outs = ["main.py"],
+    cmd = 'cp $< $@',
+)
+
+genrule(
+    name = "cp_so",
+    srcs = ["//clibrary:clib_so"],
+    outs = ["libs/clibrary.so"],
+    cmd = 'mkdir -p libs && cp $< $@',
+)
+
+genrule(
+    name = "cp_h",
+    srcs = ["//clibrary:clib_h"],
+    outs = ["hdrs/clibrary.h"],
+    cmd = 'mkdir -p hdrs && cp $< $@',
+)
+
+generate_manifest(
+    name = "manifest",
+    srcs = [
+        ":cp_so",
+        ":cp_h",
+        ":cp_script",
+    ]
+)
+
+pkg_tar(
+    name = "release",
+    srcs = [
+        ":cp_so",
+        ":cp_h",
+        ":cp_script",
+        ":manifest",
+    ],
+    mode = "0755",
+    extension = "tar.gz",
+    strip_prefix = "."
+)
